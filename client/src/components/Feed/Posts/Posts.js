@@ -5,7 +5,7 @@ import Post from './Post/Post'
 import { MainContext } from '../../../context/context';
 
 const Posts = ({ setCurrentId }) => {
-    const { postsState, getPosts } = useContext(MainContext);
+    const { posts, getPosts } = useContext(MainContext);
     
     useEffect(() => {
         getPosts();
@@ -13,8 +13,8 @@ const Posts = ({ setCurrentId }) => {
 
     return (
                 <div>
-                    {!postsState.length ? <CircularProgress /> : (
-                        postsState.map((post, index) => (
+                    {!posts?.length ? <CircularProgress /> : (
+                        posts.map((post, index) => (
                             <div key={index}>
                                 <Post post={post} setCurrentId={setCurrentId} />
                             </div>

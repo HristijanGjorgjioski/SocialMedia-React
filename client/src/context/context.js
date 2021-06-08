@@ -1,8 +1,7 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useState } from 'react';
 import userContextReducer from './userContextReducer';
 
 import * as api from '../api/index';
-import postContext from './postContextReducer';
 
 const initialState = [];
 const postsState = [];
@@ -12,7 +11,7 @@ export const MainContext = createContext(initialState);
 // Main Provider
 export const Provider = ({ children }) => {
     const [users, dispatch] = useReducer(userContextReducer, initialState);
-    const [posts, dispatchPost] = useReducer(postContext, postsState);
+    const [posts, setPosts] = useState(postsState);
 
     // AUTH ACTIONS
     const createUser = async (user, router) => {
@@ -37,8 +36,7 @@ export const Provider = ({ children }) => {
     const getPosts = async () => {
         try {
             const { data } = await api.getPosts();
-            postsState.push(data);
-            dispatchPost({ type: 'GET_POSTS', payload: data })
+            setPosts(data);
         } catch (error) {
             console.log(error);
         }
@@ -46,8 +44,7 @@ export const Provider = ({ children }) => {
 
     const createPost = async (post) => {
         try {
-            const createdPost = await api.createPost(post);
-            dispatchPost({ type: 'CREATE_POST', createdPost });   
+            return await api.createPost(post);
         } catch (error) {
             console.log(error);
         }
@@ -56,8 +53,6 @@ export const Provider = ({ children }) => {
     const deletePost = async (id) => {
         try {
             await api.deletePost(id);
-            dispatchPost({ type: 'DELETE_POST', payload: id });
-            console.log(id, '  -- idddd')
         } catch (error) {
             console.log(error);
         }

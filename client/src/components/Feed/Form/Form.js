@@ -11,22 +11,12 @@ const Form = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [postData, setPostData] = useState({ description: '', selectedFile: '' });
     const { createPost } = useContext(MainContext);
-    const history = useHistory();
 
-    const clear = () => {
-        setPostData({ description: '', selectedFile: '' })
-    }
-
-    const onFormSubmit = async (e) => {
+    const onFormSubmit = (e) => {
         e.preventDefault();
-        createPost({ ...postData, name: user?.data?.result?.name, creator: user?.data?.result?._id }, history);
-        clear();
-        // history.push('/');
+        createPost({ ...postData, name: user?.data?.result?.name, creator: user?.data?.result?._id });
+        setPostData({ ...postData, description: '', selectedFile: '' })
     }
-
-    // useEffect(() => {
-    //     setPostData({ description: '', selectedFile: '' })
-    // }, [createPost]);
 
     if(!user?.data?.result?.name) {
         return (

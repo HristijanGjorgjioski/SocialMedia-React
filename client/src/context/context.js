@@ -4,14 +4,13 @@ import userContextReducer from './userContextReducer';
 import * as api from '../api/index';
 
 const initialState = [];
-const postsState = [];
 
 export const MainContext = createContext(initialState);
 
 // Main Provider
 export const Provider = ({ children }) => {
     const [users, dispatch] = useReducer(userContextReducer, initialState);
-    const [posts, setPosts] = useState(postsState);
+    const [posts, setPosts] = useState([]);
 
     // AUTH ACTIONS
     const createUser = async (user, router) => {
@@ -35,7 +34,7 @@ export const Provider = ({ children }) => {
     // POST ACTIONS
     const getPosts = async () => {
         try {
-            const { data } = await api.getPosts();
+            const { data } = await api.fetchPosts();
             setPosts(data);
         } catch (error) {
             console.log(error);
@@ -67,7 +66,6 @@ export const Provider = ({ children }) => {
             logout,
             getPosts,
             posts,
-            postsState,
             createPost,
             deletePost
         }}>

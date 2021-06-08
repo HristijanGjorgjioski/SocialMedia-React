@@ -12,6 +12,6 @@ API.interceptors.request.use((req) => {
 export const register = (formData) => API.post('/user/register', formData);
 export const signin = (formData) => API.post('/user/signin', formData);
 
-export const getPosts = () => API.get('/post/getPosts');
+export const fetchPosts = () => API.get('/post/getPosts');
 export const createPost = (formData) => API.post('/post/createPost', formData);
 export const deletePost = (id) => API.delete(`/post/deletePost/${id}`)

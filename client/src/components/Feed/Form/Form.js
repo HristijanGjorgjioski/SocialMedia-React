@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import FileBase from 'react-file-base64';
-import { useHistory } from 'react-router-dom';
 import { Paper, TextField, Typography, Button } from '@material-ui/core';
 import { MainContext } from '../../../context/context';
 
@@ -12,11 +11,19 @@ const Form = () => {
     const [postData, setPostData] = useState({ description: '', selectedFile: '' });
     const { createPost } = useContext(MainContext);
 
+    const descRef = useRef();
+    const imgRef = useRef();
+
+    const clear = async () => {
+        await setPostData({ description: '', selectedFile: '' });
+        console.log(postData)
+    };
+
     const onFormSubmit = (e) => {
         e.preventDefault();
         createPost({ ...postData, name: user?.data?.result?.name, creator: user?.data?.result?._id });
-        setPostData({ ...postData, description: '', selectedFile: '' })
-    }
+        clear();
+    };
 
     if(!user?.data?.result?.name) {
         return (
@@ -25,8 +32,8 @@ const Form = () => {
                     <Typography variant="h6">To Create Your Own Posts Please Login or Signup!</Typography>
                 </div>
             </Paper>
-        )
-    }
+        );
+    };
 
     return (
         <Paper className={classes.paper}>
@@ -37,7 +44,7 @@ const Form = () => {
                 <Button variant="contained" color="primary" size="large" type="submit">Submit</Button>
             </form>
         </Paper>
-    )
-}
+    );
+};
 
 export default Form;
